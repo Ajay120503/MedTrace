@@ -61,8 +61,8 @@ function PatientDashboard() {
 
   const handleExportPDF = async () => {
     try {
-      const response = await patientAPI.exportPDF(user.id);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const blob = await patientAPI.exportPDF(user.id);
+      const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", `medtrace-history-${user.id}.pdf`);
@@ -77,7 +77,7 @@ function PatientDashboard() {
 
   const handleShowQR = async () => {
     try {
-      const { data } = await patientAPI.getQR(user.id);
+      const data = await patientAPI.getQR(user.id);
       const win = window.open("", "_blank", "width=400,height=500");
       win.document.write(`
         <html><head><title>MedTrace - Your Health ID</title>

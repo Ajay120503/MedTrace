@@ -9,9 +9,9 @@ function AuditVerification() {
   const handleVerify = async () => {
     setLoading(true);
     try {
-      const { data } = await adminAPI.verifyAudit();
-      setResult(data);
-      if (data.valid) {
+      const result = await adminAPI.verifyAudit();
+      setResult(result);
+      if (result.valid) {
         toast.success("Audit chain is intact!");
       } else {
         toast.error("Tampering detected!");
