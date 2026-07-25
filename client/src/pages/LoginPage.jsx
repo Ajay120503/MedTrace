@@ -158,6 +158,14 @@ function LoginPage() {
                 >
                   Sign In
                 </Button>
+                <div className="text-right">
+                  <Link
+                    to="/forgot-password"
+                    className="text-xs text-primary-500 hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
               </form>
             ) : (
               <form

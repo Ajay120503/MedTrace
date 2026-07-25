@@ -137,4 +137,7 @@ export const userAPI = {
   changePassword: (data) => api.post('/users/change-password', data),
   logoutEverywhere: () => api.post('/users/logout-everywhere'),
   getMe: () => api.get('/users/me'),
+  updateProfile: (data) => api.put('/users/profile', data),
+  forgotPassword: (data) => api.post('/users/forgot-password', data),
+  resetPassword: (data) => api.post('/users/reset-password', data),
 };

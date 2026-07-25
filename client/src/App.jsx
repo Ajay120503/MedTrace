@@ -17,6 +17,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AccessRequest from "./pages/AccessRequest";
 import EmergencyAccess from "./pages/EmergencyAccess";
 import AuditVerification from "./pages/AuditVerification";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuthStore();
@@ -51,6 +53,17 @@ function App() {
       <Route path="/register/patient" element={<PatientRegister />} />
       <Route path="/register/doctor" element={<DoctorRegister />} />
       <Route path="/register/hospital" element={<HospitalRegister />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute allowedRoles={["patient", "doctor", "admin"]}>
+            <Layout role={user?.role || "patient"}>
+              <Profile />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/patient"
