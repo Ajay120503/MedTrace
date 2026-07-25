@@ -32,8 +32,8 @@ function EmergencyAccess() {
       else if (searchType === "email") payload.patientEmail = searchQuery;
       else payload.patientMobile = searchQuery;
 
-      const { data } = await emergencyAPI.lookup(payload);
-      setPatient(data);
+      const response = await emergencyAPI.lookup(payload);
+      setPatient(response);
       setStep("confirm");
       toast.success("Patient identified");
     } catch (err) {
@@ -53,10 +53,10 @@ function EmergencyAccess() {
     }
     setLoading(true);
     try {
-      const { data } = await emergencyAPI.breakGlass(patient.patientId, {
+      const response = await emergencyAPI.breakGlass(patient.patientId, {
         confirmed: true,
       });
-      setPatientData(data.data);
+      setPatientData(response.data || response);
       setStep("result");
       toast.success("Emergency access granted");
     } catch (err) {
