@@ -125,3 +125,10 @@ export const uploadAPI = {
   savePatientPhoto: (id, data) => api.post(`/uploads/patients/${id}/photo`, data),
   delete: (publicId) => api.delete(`/uploads/${publicId}`),
 };
+
+// User API
+export const userAPI = {
+  changePassword: (data) => api.post('/users/change-password', data),
+  logoutEverywhere: () => api.post('/users/logout-everywhere'),
+  getMe: () => api.get('/users/me'),
+};

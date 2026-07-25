@@ -8,6 +8,7 @@ const { generateAccessToken, generateRefreshToken, verifyRefreshToken, rotateRef
 const { generateOtp, hashOtp, verifyOtp, getOtpExpiry, isOtpExpired } = require('../services/otpService');
 const { sendEmail, generateOtpEmailForLogin } = require('../services/emailService');
 const { validate, loginSchema, verifyMfaSchema } = require('../middleware/validate');
+const { checkLockout, recordFailedAttempt, resetAttempts } = require('../middleware/lockout');
 const logger = require('../config/logger');
 
 // Rate limiter for auth endpoints (higher in test/dev mode)
@@ -21,7 +22,7 @@ const authLimiter = rateLimit({
 const loginOtpStore = new Map();
 
 // POST /api/auth/login
-router.post('/login', authLimiter, validate(loginSchema), async (req, res) => {
+router.post('/login', checkLockout, authLimiter, validate(loginSchema), async (req, res) => {
   try {
     const { email, password, role } = req.validatedBody;
     let user;

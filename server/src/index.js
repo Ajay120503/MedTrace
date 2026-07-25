@@ -19,6 +19,7 @@ const emergencyRoutes = require('./routes/emergency');
 const adminRoutes = require('./routes/admin');
 const drugCheckRoutes = require('./routes/drugCheck');
 const uploadRoutes = require('./routes/uploads');
+const userRoutes = require('./routes/users');
 
 const app = express();
 const server = http.createServer(app);
@@ -61,6 +62,7 @@ app.use('/api/emergency', emergencyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/drug-check', drugCheckRoutes);
 app.use('/api/uploads', uploadRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
