@@ -6,15 +6,6 @@ import { Toaster } from "react-hot-toast";
 import App from "./App";
 import "./styles/index.css";
 
-// Register Service Worker for PWA
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
-      // Service worker registration failed — app works fine without it
-    });
-  });
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
