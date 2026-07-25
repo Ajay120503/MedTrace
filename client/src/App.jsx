@@ -41,7 +41,11 @@ function App() {
       <Route
         path="/login"
         element={
-          isAuthenticated ? <Navigate to={`/${user.role}`} /> : <LoginPage />
+          isAuthenticated && user ? (
+            <Navigate to={`/${user.role}`} />
+          ) : (
+            <LoginPage />
+          )
         }
       />
       <Route path="/register/patient" element={<PatientRegister />} />
