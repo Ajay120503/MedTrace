@@ -65,79 +65,82 @@ export const authAPI = {
   logout: (data) => api.post('/auth/logout', data),
 };
 
+// Helper to unwrap axios response
+const unwrap = (promise) => promise.then((res) => res.data);
+
 // Patient API
 export const patientAPI = {
-  register: (data) => api.post('/patients/register', data),
-  getHistory: (id) => api.get(`/patients/${id}/history`),
-  addHistoryEntry: (id, data) => api.post(`/patients/${id}/history`, data),
-  getAccessLog: (id) => api.get(`/patients/${id}/access-log`),
-  getQR: (id) => api.get(`/patients/${id}/qr`),
-  exportPDF: (id) => api.get(`/patients/${id}/export-pdf`, { responseType: 'blob' }),
+  register: (data) => unwrap(api.post('/patients/register', data)),
+  getHistory: (id) => unwrap(api.get(`/patients/${id}/history`)),
+  addHistoryEntry: (id, data) => unwrap(api.post(`/patients/${id}/history`, data)),
+  getAccessLog: (id) => unwrap(api.get(`/patients/${id}/access-log`)),
+  getQR: (id) => unwrap(api.get(`/patients/${id}/qr`)),
+  exportPDF: (id) => api.get(`/patients/${id}/export-pdf`, { responseType: 'blob' }).then(res => res.data),
 };
 
 // Doctor API
 export const doctorAPI = {
-  register: (data) => api.post('/doctors/register', data),
-  getMe: () => api.get('/doctors/me'),
+  register: (data) => unwrap(api.post('/doctors/register', data)),
+  getMe: () => unwrap(api.get('/doctors/me')),
 };
 
 // Hospital API
 export const hospitalAPI = {
-  register: (data) => api.post('/hospitals/register', data),
-  registerAdmin: (data) => api.post('/hospitals/admin/register', data),
-  getAll: () => api.get('/hospitals'),
-  getById: (id) => api.get(`/hospitals/${id}`),
+  register: (data) => unwrap(api.post('/hospitals/register', data)),
+  registerAdmin: (data) => unwrap(api.post('/hospitals/admin/register', data)),
+  getAll: () => unwrap(api.get('/hospitals')),
+  getById: (id) => unwrap(api.get(`/hospitals/${id}`)),
 };
 
 // Nominee API
 export const nomineeAPI = {
-  add: (data) => api.post('/nominees', data),
-  confirm: (id) => api.post(`/nominees/${id}/confirm`),
-  getAll: () => api.get('/nominees'),
+  add: (data) => unwrap(api.post('/nominees', data)),
+  confirm: (id) => unwrap(api.post(`/nominees/${id}/confirm`)),
+  getAll: () => unwrap(api.get('/nominees')),
 };
 
 // Access API
 export const accessAPI = {
-  request: (data) => api.post('/access/request', data),
-  verifyOtp: (data) => api.post('/access/verify-otp', data),
+  request: (data) => unwrap(api.post('/access/request', data)),
+  verifyOtp: (data) => unwrap(api.post('/access/verify-otp', data)),
 };
 
 // Emergency API
 export const emergencyAPI = {
-  lookup: (data) => api.post('/emergency/lookup', data),
-  breakGlass: (patientId, data) => api.post(`/emergency/breakglass/${patientId}`, data),
-  getSummary: (patientId) => api.get(`/emergency/summary/${patientId}`),
+  lookup: (data) => unwrap(api.post('/emergency/lookup', data)),
+  breakGlass: (patientId, data) => unwrap(api.post(`/emergency/breakglass/${patientId}`, data)),
+  getSummary: (patientId) => unwrap(api.get(`/emergency/summary/${patientId}`)),
 };
 
 // Admin API
 export const adminAPI = {
-  approveDoctor: (id, data) => api.post(`/admin/approve-doctor/${id}`, data),
-  getDoctors: (params) => api.get('/admin/doctors', { params }),
-  verifyAudit: () => api.get('/admin/audit/verify'),
-  getDashboardStats: () => api.get('/admin/dashboard/stats'),
+  approveDoctor: (id, data) => unwrap(api.post(`/admin/approve-doctor/${id}`, data)),
+  getDoctors: (params) => unwrap(api.get('/admin/doctors', { params })),
+  verifyAudit: () => unwrap(api.get('/admin/audit/verify')),
+  getDashboardStats: () => unwrap(api.get('/admin/dashboard/stats')),
 };
 
 // Drug Check API
 export const drugCheckAPI = {
-  check: (data) => api.post('/drug-check', data),
-  getReference: () => api.get('/drug-check/reference'),
+  check: (data) => unwrap(api.post('/drug-check', data)),
+  getReference: () => unwrap(api.get('/drug-check/reference')),
 };
 
 // Upload API (Cloudinary signed uploads)
 export const uploadAPI = {
-  sign: (data) => api.post('/uploads/sign', data),
-  saveDoctorCertificate: (id, data) => api.post(`/uploads/doctors/${id}/certificate`, data),
-  saveHospitalLogo: (id, data) => api.post(`/uploads/hospitals/${id}/logo`, data),
-  savePatientPhoto: (id, data) => api.post(`/uploads/patients/${id}/photo`, data),
-  delete: (publicId) => api.delete(`/uploads/${publicId}`),
+  sign: (data) => unwrap(api.post('/uploads/sign', data)),
+  saveDoctorCertificate: (id, data) => unwrap(api.post(`/uploads/doctors/${id}/certificate`, data)),
+  saveHospitalLogo: (id, data) => unwrap(api.post(`/uploads/hospitals/${id}/logo`, data)),
+  savePatientPhoto: (id, data) => unwrap(api.post(`/uploads/patients/${id}/photo`, data)),
+  delete: (publicId) => unwrap(api.delete(`/uploads/${publicId}`)),
 };
 
 // User API
 export const userAPI = {
-  changePassword: (data) => api.post('/users/change-password', data),
-  logoutEverywhere: () => api.post('/users/logout-everywhere'),
-  getMe: () => api.get('/users/me'),
-  updateProfile: (data) => api.put('/users/profile', data),
-  forgotPassword: (data) => api.post('/users/forgot-password', data),
-  resetPassword: (data) => api.post('/users/reset-password', data),
+  changePassword: (data) => unwrap(api.post('/users/change-password', data)),
+  logoutEverywhere: () => unwrap(api.post('/users/logout-everywhere')),
+  getMe: () => unwrap(api.get('/users/me')),
+  updateProfile: (data) => unwrap(api.put('/users/profile', data)),
+  forgotPassword: (data) => unwrap(api.post('/users/forgot-password', data)),
+  resetPassword: (data) => unwrap(api.post('/users/reset-password', data)),
 };
