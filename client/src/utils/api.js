@@ -27,7 +27,9 @@ api.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) throw new Error('No refresh token');
+        if (!refreshToken || refreshToken === 'null' || refreshToken === 'undefined') {
+          throw new Error('No valid refresh token');
+        }
 
         const { data } = await axios.post(`${API_BASE}/auth/refresh`, { refreshToken });
         
@@ -40,7 +42,11 @@ api.interceptors.response.use(
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+        // Don't redirect on every 401 — only if refresh fails
+        if (refreshError?.response?.status === 401) {
+          // Token expired or invalid, redirect to login
+          window.location.href = '/login';
+        }
         return Promise.reject(refreshError);
       }
     }
