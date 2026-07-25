@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Doctor = require('../models/Doctor');
+const Hospital = require('../models/Hospital');
 const AccessAuditLog = require('../models/AccessAuditLog');
 const { authenticate, authorize } = require('../middleware/auth');
 const { verifyChain } = require('../utils/hashChain');

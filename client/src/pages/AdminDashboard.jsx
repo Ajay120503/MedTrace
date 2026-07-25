@@ -32,7 +32,7 @@ const COLORS = ["#1B4B91", "#E63946", "#2A9D8F", "#F4A261"];
 
 function AdminDashboard() {
   const { user } = useAuthStore();
-  const [filter, setFilter] = useState("Pending");
+  const [filter, setFilter] = useState("");
 
   const { data: statsData, refetch: refetchStats } = useQuery({
     queryKey: ["adminStats"],
@@ -275,8 +275,12 @@ function AdminDashboard() {
         ) : (
           <EmptyState
             icon={Shield}
-            title={`No ${filter.toLowerCase()} doctors`}
-            description={`No doctors with status "${filter}" require attention.`}
+            title={`No ${filter ? filter.toLowerCase() : ""} doctors found`}
+            description={
+              filter
+                ? `No doctors with status "${filter}" require attention.`
+                : "No doctors registered yet."
+            }
           />
         )}
       </div>
