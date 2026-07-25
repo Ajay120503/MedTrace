@@ -34,15 +34,44 @@ function AdminDashboard() {
   const { user } = useAuthStore();
   const [filter, setFilter] = useState("");
 
-  const { data: statsData, refetch: refetchStats } = useQuery({
+  const {
+    data: statsData,
+    refetch: refetchStats,
+    error: statsError,
+  } = useQuery({
     queryKey: ["adminStats"],
     queryFn: () => adminAPI.getDashboardStats(),
+    retry: false,
   });
 
-  const { data: doctorsData, refetch: refetchDoctors } = useQuery({
+  const {
+    data: doctorsData,
+    refetch: refetchDoctors,
+    error: doctorsError,
+  } = useQuery({
     queryKey: ["adminDoctors", filter],
-    queryFn: () => adminAPI.getDoctors({ status: filter }),
+    queryFn: () => adminAPI.getDoctors({ status: filter || undefined }),
+    retry: false,
   });
+
+  if (statsError || doctorsError) {
+    return (
+      <div className="card text-center py-12">
+        <p className="text-slate-400">
+          Could not load dashboard data. Your session may have expired.
+        </p>
+        <button
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+          className="btn-primary mt-4"
+        >
+          Sign In Again
+        </button>
+      </div>
+    );
+  }
 
   const handleApprove = async (id, status) => {
     try {

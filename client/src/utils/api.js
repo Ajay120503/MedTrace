@@ -39,12 +39,12 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
+        // Clear all stored auth data
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
-        // Don't redirect on every 401 — only if refresh fails
-        if (refreshError?.response?.status === 401) {
-          // Token expired or invalid, redirect to login
+        // Redirect to login on any refresh failure
+        if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
         return Promise.reject(refreshError);
