@@ -54,7 +54,8 @@ function AdminDashboard() {
     retry: false,
   });
 
-  if (statsError || doctorsError) {
+  // Show error only if BOTH queries fail (auth issue), not if just one is empty
+  if (statsError && doctorsError) {
     return (
       <div className="card text-center py-12">
         <p className="text-slate-400">
