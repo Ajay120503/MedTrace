@@ -8,4 +8,6 @@ build/
 Thumbs.db
 *.pid
 coverage/
-.vite/
+.vite/server/src/seed.js
+project_plan.md
+UI_plan.md
