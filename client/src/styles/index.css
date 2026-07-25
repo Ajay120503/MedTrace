@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-900: #0b2545;
+    --color-primary-700: #13315c;
+    --color-primary-500: #1b4b91;
+    --color-primary-100: #e7eef9;
+    --color-emergency-700: #a31621;
+    --color-emergency-500: #e63946;
+    --color-emergency-100: #fdecee;
+    --color-success-700: #146356;
+    --color-success-500: #2a9d8f;
+    --color-success-100: #e3f5f2;
+    --color-warning-700: #b0710a;
+    --color-warning-500: #f4a261;
+    --color-warning-100: #fdf1e4;
+    --color-ink: #1b263b;
+    --color-slate-600: #4a5568;
+    --color-slate-400: #8b95a5;
+    --color-slate-200: #e2e7ef;
+    --color-slate-100: #f1f4f9;
+    --color-surface: #ffffff;
+    --color-bg: #f8fafc;
+  }
+
+  [data-theme="dark"] {
+    --color-bg: #0a1220;
+    --color-surface: #101b2d;
+    --color-ink: #e7eef9;
+    --color-slate-600: #a9b4c4;
+    --color-slate-200: #22304a;
+    --color-primary-100: #16223b;
+    --color-emergency-100: #2a1518;
+    --color-success-100: #12261f;
+    --color-warning-100: #2a1e0f;
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 text-white px-6 py-2 rounded-button font-medium hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-surface text-primary-500 border border-primary-500 px-6 py-2 rounded-button font-medium hover:bg-primary-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-danger {
+    @apply bg-emergency-500 text-white px-6 py-2 rounded-button font-medium hover:bg-emergency-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emergency-500 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply text-slate-600 px-6 py-2 rounded-button font-medium hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-slate-200 rounded-input bg-surface text-ink placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors;
+  }
+
+  .card {
+    @apply bg-surface rounded-card shadow-sm p-6;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-pending {
+    @apply badge bg-warning-100 text-warning-700;
+  }
+
+  .badge-approved {
+    @apply badge bg-success-100 text-success-700;
+  }
+
+  .badge-rejected {
+    @apply badge bg-emergency-100 text-emergency-700;
+  }
+
+  .badge-active {
+    @apply badge bg-success-100 text-success-700;
+  }
+
+  .badge-expired {
+    @apply badge bg-slate-100 text-slate-600;
+  }
+}
