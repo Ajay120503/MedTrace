@@ -9,12 +9,26 @@ import {
   XCircle,
   Activity,
 } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import toast from "react-hot-toast";
 import { adminAPI } from "../utils/api";
 import useAuthStore from "../store/authStore";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import EmptyState from "../components/ui/EmptyState";
+
+const COLORS = ["#1B4B91", "#E63946", "#2A9D8F", "#F4A261"];
 
 function AdminDashboard() {
   const { user } = useAuthStore();
@@ -52,6 +66,15 @@ function AdminDashboard() {
       minute: "2-digit",
     });
 
+  const accessData = [
+    {
+      name: "Normal OTP",
+      count:
+        (statsData?.totalAccessEvents || 0) - (statsData?.totalGlassBreak || 0),
+    },
+    { name: "Glass-Break", count: statsData?.totalGlassBreak || 0 },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -59,8 +82,7 @@ function AdminDashboard() {
           Admin Dashboard
         </h1>
         <p className="text-sm text-slate-400">
-          {user?.name} &middot;{" "}
-          {user?.hospitalId?.name || "Hospital Administrator"}
+          {user?.name} &middot; Hospital Administrator
         </p>
       </div>
 
@@ -112,6 +134,57 @@ function AdminDashboard() {
         ))}
       </div>
 
+      {/* Charts Row */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="card">
+          <h3 className="text-sm font-semibold text-ink mb-4">
+            Access Events Overview
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie
+                data={accessData}
+                dataKey="count"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                label={({ name, count }) => `${name}: ${count}`}
+              >
+                {accessData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="card">
+          <h3 className="text-sm font-semibold text-ink mb-4">
+            Doctor Verification Status
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart
+              data={[
+                { name: "Pending", value: statsData?.pendingDoctors || 0 },
+                {
+                  name: "Approved",
+                  value:
+                    (statsData?.totalDoctors || 0) -
+                    (statsData?.pendingDoctors || 0),
+                },
+              ]}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E7EF" />
+              <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#4A5568" }} />
+              <YAxis tick={{ fontSize: 12, fill: "#4A5568" }} />
+              <Tooltip />
+              <Bar dataKey="value" fill="#1B4B91" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       {/* Doctor Approval Queue */}
       <div className="card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -135,7 +208,6 @@ function AdminDashboard() {
             ))}
           </div>
         </div>
-
         {doctorsData?.doctors?.length > 0 ? (
           <div className="divide-y divide-slate-100">
             {doctorsData.doctors.map((doctor) => (
@@ -209,7 +281,7 @@ function AdminDashboard() {
         )}
       </div>
 
-      {/* Recent Glass-Break Events */}
+      {/* Recent Glass-Break */}
       {statsData?.recentGlassBreak?.length > 0 && (
         <div className="card">
           <h2 className="text-base font-semibold text-ink mb-4 flex items-center gap-2">

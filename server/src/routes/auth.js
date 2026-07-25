@@ -36,13 +36,18 @@ router.post('/login', checkLockout, authLimiter, validate(loginSchema), async (r
     }
 
     if (!user) {
+      recordFailedAttempt(email, role);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isValid = await user.comparePassword(password);
     if (!isValid) {
+      recordFailedAttempt(email, role);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+
+    // Reset lockout on successful password verification
+    resetAttempts(email, role);
 
     // Generate and send OTP for MFA
     const otp = generateOtp();
