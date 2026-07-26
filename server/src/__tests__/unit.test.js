@@ -17,6 +17,7 @@ function assert(condition, message) {
   }
 }
 
+test('core utility checks pass', () => {
 // ── Hash Chain Tests ──
 console.log('\n═══ Hash Chain ═══');
 const hash = computeEntryHash({
@@ -139,3 +140,5 @@ assert(otp.isOtpExpired(new Date(Date.now() + 100000)) === false, 'Future date s
 console.log(`\n═══════════════════════════════════`);
 console.log(`  Passed: ${passed}  Failed: ${failed}`);
 console.log(`═══════════════════════════════════\n`);
+expect(failed).toBe(0);
+});

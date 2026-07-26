@@ -53,7 +53,7 @@ function Layout({ children, role }) {
 
   return (
     <div className="min-h-screen bg-bg">
-      <nav className="bg-primary-900 text-white sticky top-0 z-40 shadow-sm">
+      <nav className="bg-primary-900/95 text-white sticky top-0 z-40 shadow-sm backdrop-blur">
         <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             <div className="flex items-center space-x-6">
@@ -66,15 +66,15 @@ function Layout({ children, role }) {
                 </span>
                 MedTrace
               </Link>
-              <div className="hidden md:flex items-center space-x-1">
+              <div className="hidden md:flex items-center gap-1 rounded-button bg-white/5 p-1">
                 {(navLinks[role] || []).map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
                     className={`px-3 py-1.5 rounded-button text-sm font-medium transition-colors ${
                       location.pathname === link.to
-                        ? "bg-primary-700 text-white"
-                        : "text-slate-200 hover:text-white hover:bg-primary-700"
+                        ? "bg-white text-primary-900 shadow-sm"
+                        : "text-slate-200 hover:text-white hover:bg-white/10"
                     }`}
                   >
                     {link.label}
@@ -97,11 +97,13 @@ function Layout({ children, role }) {
                 )}
               </button>
               <div className="hidden sm:flex items-center space-x-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center">
+                <div className="flex items-center gap-2 rounded-button border border-white/10 bg-white/5 px-2 py-1">
+                  <div className="w-7 h-7 rounded-full bg-success-500 flex items-center justify-center">
                     <RoleIcon className="h-3.5 w-3.5" />
                   </div>
-                  <span className="text-sm text-slate-200">{user?.name}</span>
+                  <span className="max-w-32 truncate text-sm text-white">
+                    {user?.name}
+                  </span>
                 </div>
                 <button
                   onClick={handleLogout}

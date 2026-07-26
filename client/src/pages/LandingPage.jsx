@@ -133,10 +133,15 @@ function LandingPage() {
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────── */}
-      <section className="bg-primary-900 text-white pt-20 sm:pt-24 pb-16 sm:pb-20">
+      <section className="relative overflow-hidden bg-primary-900 text-white pt-20 sm:pt-24 pb-12 sm:pb-16">
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bg/10 to-transparent" />
         <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="relative grid lg:grid-cols-[1fr_0.9fr] gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-button border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-primary-100">
+                <HeartPulse className="h-3.5 w-3.5 text-success-500" />
+                Emergency-ready records with patient consent
+              </div>
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-bold leading-tight mb-4">
                 Your medical history, ready the moment it's needed most.
               </h1>
@@ -159,13 +164,28 @@ function LandingPage() {
                   <Building2 className="h-4 w-4" /> For Hospitals & Doctors
                 </Link>
               </div>
+              <div className="mt-8 grid max-w-lg grid-cols-3 gap-3">
+                {[
+                  ["14-digit", "Health ID"],
+                  ["OTP", "Consent access"],
+                  ["Hash", "Audit trail"],
+                ].map(([value, label]) => (
+                  <div
+                    key={label}
+                    className="rounded-card border border-white/10 bg-white/5 p-3"
+                  >
+                    <div className="text-lg font-bold text-white">{value}</div>
+                    <div className="text-xs text-slate-300">{label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="order-1 lg:order-2">
               <SafeImage
                 src={HERO_IMAGE}
                 srcLg={HERO_IMAGE_LG}
                 alt="Doctor using a tablet in a calm clinical setting — reviewing patient records"
-                className="shadow-sm"
+                className="shadow-soft ring-1 ring-white/10"
                 aspectRatio="4/3"
               />
             </div>
@@ -272,7 +292,10 @@ function LandingPage() {
                 icon: Link2,
               },
             ].map((step) => (
-              <div key={step.num} className="card">
+              <div
+                key={step.num}
+                className="card hover:-translate-y-1 hover:shadow-soft transition-all"
+              >
                 <SafeImage
                   src={step.img}
                   alt={`${step.title} — MedTrace workflow step`}
@@ -374,7 +397,10 @@ function LandingPage() {
                 desc: "Email OTP-based MFA on every login and every access request. JWT access tokens with automatic refresh rotation prevent session hijacking.",
               },
             ].map((item) => (
-              <div key={item.title} className="card">
+              <div
+                key={item.title}
+                className="card hover:-translate-y-1 hover:shadow-soft transition-all"
+              >
                 <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mb-4">
                   <item.icon className="h-5 w-5 text-primary-500" />
                 </div>

@@ -9,6 +9,8 @@ export default {
           900: '#0B2545',
           700: '#13315C',
           500: '#1B4B91',
+          300: '#7EA6D9',
+          200: '#C9DAF2',
           100: '#E7EEF9',
         },
         emergency: {
@@ -63,13 +65,14 @@ export default {
         content: '1280px',
       },
       borderRadius: {
-        card: '12px',
+        card: '8px',
         button: '8px',
         input: '8px',
       },
       boxShadow: {
         sm: '0 1px 3px rgba(0, 0, 0, 0.1)',
         md: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        soft: '0 10px 30px rgba(11, 37, 69, 0.08)',
       },
     },
   },

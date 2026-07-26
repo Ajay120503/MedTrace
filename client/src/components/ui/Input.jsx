@@ -13,7 +13,7 @@ function Input({ label, error, type, className = "", ...props }) {
       <div className="relative">
         <input
           type={isPassword && showPassword ? "text" : type}
-          className={`w-full px-4 py-2 border rounded-input bg-surface text-ink placeholder-slate-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors text-sm ${
+          className={`w-full px-4 py-2.5 border rounded-input bg-surface text-ink placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors text-sm ${
             error
               ? "border-emergency-500 focus:ring-emergency-500"
               : "border-slate-200 focus:ring-primary-500"
@@ -47,7 +47,7 @@ function Select({ label, error, children, className = "", ...props }) {
         <label className="block text-sm font-medium text-ink">{label}</label>
       )}
       <select
-        className={`w-full px-4 py-2 border rounded-input bg-surface text-ink focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors text-sm ${
+        className={`w-full px-4 py-2.5 border rounded-input bg-surface text-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors text-sm ${
           error ? "border-emergency-500" : "border-slate-200"
         } ${className}`}
         {...props}

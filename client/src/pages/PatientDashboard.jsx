@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { QrCode, FileText, UserPlus, Activity, Eye, Users } from "lucide-react";
+import {
+  QrCode,
+  FileText,
+  UserPlus,
+  Activity,
+  Eye,
+  Users,
+  ShieldCheck,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { patientAPI, nomineeAPI } from "../utils/api";
 import useAuthStore from "../store/authStore";
@@ -108,30 +116,40 @@ function PatientDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-primary-900">
-            Patient Dashboard
-          </h1>
-          <p className="text-sm text-slate-400">Welcome, {user?.name}</p>
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button
-            variant="secondary"
-            size="sm"
-            icon={QrCode}
-            onClick={handleShowQR}
-          >
-            Show QR
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            icon={FileText}
-            onClick={handleExportPDF}
-          >
-            Export PDF
-          </Button>
+      <div className="rounded-card border border-primary-200 bg-surface p-5 shadow-soft">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="mb-2 inline-flex items-center gap-2 rounded-button bg-success-100 px-2.5 py-1 text-xs font-medium text-success-700">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Protected medical profile
+            </div>
+            <h1 className="text-xl sm:text-2xl font-bold text-primary-900">
+              Welcome, {user?.name}
+            </h1>
+            <p className="text-sm text-slate-600">
+              Manage records, nominees, and every access event from one place.
+            </p>
+          </div>
+          <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto">
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={QrCode}
+              onClick={handleShowQR}
+              className="w-full"
+            >
+              Show QR
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              icon={FileText}
+              onClick={handleExportPDF}
+              className="w-full"
+            >
+              Export PDF
+            </Button>
+          </div>
         </div>
       </div>
 
