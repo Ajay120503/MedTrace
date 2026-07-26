@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('express-async-errors');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
@@ -64,9 +65,32 @@ app.use('/api/drug-check', drugCheckRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/users', userRoutes);
 
-// Error handler
+// 404 handler — unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ error: `Route not found: ${req.method} ${req.originalUrl}` });
+});
+
+// Global error handler — catches errors from async handlers (via express-async-errors)
 app.use((err, req, res, next) => {
   logger.error({ err, method: req.method, url: req.url }, 'Unhandled error');
+
+  // Handle specific error types
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({ error: err.message });
+  }
+  if (err.code === 11000) {
+    return res.status(409).json({ error: 'Duplicate entry' });
+  }
+  if (err.name === 'CastError') {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON in request body' });
+  }
+
   res.status(err.status || 500).json({
     error: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
   });
